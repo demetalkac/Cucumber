@@ -1,0 +1,125 @@
+JDBC NOTES:
+1. JDBC is an API to work with databases
+   JDBC = Java Database Connectivity
+
+2. Add Database Utilities Class in utilities folder
+
+3. Our application use postgresql server(Database)
+
+   Add driver(dependency) for post gre sql database
+
+<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.5.0</version>
+        </dependency>
+
+* We use sql queries to retrieve data from the database either manual and also in automation.
+* There are different databases like Oracle, Microsoft Mysql, postgresql..etc
+* There are different tools to retrieve data from database and  we can use them for manual testing. postgresql, sql developer, etc...
+* For automation we additionally use JDBC.
+
+
+*  How to use JDBC
+1. Connect Database
+• connection=DriverManager.getConnection(“url”, “username”, “password”);
+
+2.Send query and get data
+• statement=connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+ResultSet.CONCUR_READ_ONLY);
+
+3. Used the queries in the test cases for assertions
+• resultSet = statement.executeQuery("SELECT * FROM Book;”);
+• String expectedResult = resultSet.getString(“BookName”);
+• Assert.assertEquals(expectedResult, actualResult);
+
+4. Create feature file under jdbc folder
+ *jdbc_read_data.feature
+
+5. NOT MANDATORY - create runner class for only database features
+package runners;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        plugin = {
+                "pretty",
+                "html:target/default-cucumber-reports.html",
+                "json:target/json-reports/cucumber.json",
+                "junit:target/xml-report/cucumber.xml",
+                "rerun:target/failedRerun.txt"
+        },
+        monochrome=true,
+        features = "./src/test/resources/features/jdbc",
+        glue = {"stepdefinitions"},
+        dryRun = false,
+        tags = "@db_read"
+
+)
+public class DBRunners {
+}
+
+6. generate the step definitions and write the code
+package stepdefinitions;
+import io.cucumber.java.en.Given;
+public class DatabaseStepDefinitions {
+    @Given("user connects to the application database")
+    public void user_connects_to_the_application_database() {
+
+    }
+}
+
+
+
+************************* HOW TO USE JDBC ************************
+          1. Connect Database
+                         • connection=DriverManager.getConnection(“url”, “username”, “password”);
+          2.Send query and get data
+                         • statement=connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                         ResultSet.CONCUR_READ_ONLY);
+          3. Used the queries in the test cases for assertions
+                         • resultSet = statement.executeQuery("SELECT * FROM Book;”);
+                         • String expectedData = resultSet.getString(“BookName”);
+                         • Assert.assertEquals(expectedData, actualData);
+
+*********************** SCHEMA ************************************
+=> Every Database has schema
+=> The tables are connected with primary keys
+=> Testers uses schema to right the queries to connect to the right tables and columns.
+
+
+********************** DATABASE UTILITIES **************************
+*   In our framework, we use Database Utilities Class.
+=> This utilities class is in the utilities folder. The reason is to keep the test classes clean avoid repetition
+=> This class has reusable methods, similar to Driver or Test Base class
+=> For example, we have createConnection() method in this class. We can call this class whenever we need.
+
+
+****************************
+
+GMI Bank DatBase Url = "jdbc:postgresql://157.230.48.97:5432/gmibank_db";
+==>> DataBase Type => jdbc:postgresql:
+==>> Domain        => 157.230.48.97:5432
+==>> DataBase name => gmibank_db
+
+******************** HOW DID YOU DO DATABASE TESTING *****************
+
+==>Why do you do database testing?
+* To compare database and UI data
+* For example, when a manager creates a customer from UI, is that customer information stored in the database.
+* For example, when a customer service make a reservation for customer, does that information stored in the database.
+* Reading the data and validation of that data that is entered from UI
+
+  => Database testing is faster that UI testing.
+
+  => We can check when I create a data in the database using JDBC, does that data shows up in the UI. This is not common.
+     Example: Reading the data and validation of that data that is sent to the Database
+
+***Real world scenarios:
+ When user books a hotel from UI, does it appear in the database.
+ When a user sign up, does the data goes to the database properly.
+ When a user makes car reservation, does the reservation stored in the database.
+
+
