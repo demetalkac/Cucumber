@@ -24,11 +24,11 @@ import org.junit.runner.RunWith;
 
 public class Runner {
 }
-
+// runner classı Main mrthod gibi ,testlerimizi calıstırmak icin kullanıyoruz
 // glue = {"stepdefinitions", "hooks"},     ==>> When we have multiple data we use curly braces and comma between tags. If we have single, we only use "" double-quotes
 /*
  features = "./src/test/resources/features",//PATH OF FEATURES FOLDER
- glue = "stepdefinitions", //PATH OF STEP DEFINITIONS
+ glue = "stepdefinitions", //PATH OF STEP DEFINITIONS. stepdefinitions ile ruuner classlarının bulundugu packageler aynı dosyanın altında yanı bulundukları dosya kardes o nedenle path olustururken ta bastan(./src/test...) yazmadık.
  dryRun = false //IF dryRun = true. RUN DRY. JUST GIVE ME THE MISSING STEP DEFINITIONS. DON'T RUN THE TEST CASES.
  dryRun= false when we are doing test execution. dryRun=true when we are generation missing step definitions
  dryRun = true : RUN DRY! Just give me the step definitions. Do not run test cases. It will save time.
@@ -50,7 +50,7 @@ If there is no match then Cucumber will generate template for us in the console.
 To open HTML report right click / Open in / Browser / Chrome
 For Cucumber and Json reports we just double-click and open in IntelliJ
  */
-
+//    ****************burdan sonrasını notes a almadım
 /*
       ***Scenario Outline:***
 What is it?

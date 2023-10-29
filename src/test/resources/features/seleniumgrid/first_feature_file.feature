@@ -19,7 +19,8 @@ Feature: first feature file
 #  Feature file is used to create test cases.
 #  All feature files must begin with "Feature:" keyword
 #  Feature : Declare the file is a feature file. Mandatory. There can be ONLY one Feature: keyword
-#  Scenario : To create test case. In a feature file there may be more than one Scenario:
+#  Scenario(test case) : To create test case. In a feature file there may be more than one "Scenario:"
+#  Test case icin her bir adım Given,When, And, Then, But, * kelimelerinden biriyle baslamalıdır.
 #  Runner : To run the feature files.
 #  Background : Used to run before each scenario. This is used for repeated pre-conditions.
 #  CUCUMBER STEPS

@@ -1,0 +1,105 @@
+        WHY COMPANIES USE CUCUMBER?
+Reports:Cucumber also has amazing visual reports(görsel raporlar). We can use these reports in our
+        demo meetings. We can also upload them in JIRA for test execution reports
+
+Reusabilitity: We also reuse the reusable steps definitions. So we don’t have to create a new
+               JAVA code if we need to use the same step definition.
+Understandable by all agile members: Cucumber connects the non technical and technical people.
+ Because cucumber has Gherken language in plane English. So non technical people can understand
+ what we are doing.
+
+      "Proje Olusturma"
+ 1.Create Project: File -> New -> Project-> Select maven -> Java =>click next
+ 2. Name: myCucumberProject->finish
+ 3. Add Dependencies =>Selenium-java, webdrivermanager, cucumber java, cucumber-junit (io.cucumber olanı kullnyrz)
+ NOT: cucumber java dependencies ile feature fileları gherkin language ni kullanıyoruz
+ Not: , cucumber-junit ile test caselerin run edilebilmesi gereken bazı anatation ları(test., @RunWhith...)
+ kullanmamızı sağlıyor.RunWhith anatationu testleri run ederken kullanıyoruz
+ 4. Click Maven => click “Enable auto-reload after any changes” (BU MESAJ
+ GORUNMEYEDEBILIR)
+ 5. Javanin sürümüyle alakali sorunlari halletmek icin compiler dependency yuklenebilir (bu java sürümü eski
+  olanlarda sorun yasayandıgında dikkate alınacak bir mevzu)
+ <properties> <maven.compiler.source>1.8</maven.compiler.source> <maven.compiler.target>1.8</maven.compiler.target>
+ </properties>
+ 6.test altındaki  Java’ya sag click yapip asagidaki paketleri olusturalim
+ a. utilities
+ b. pages
+ c. runners (test case’leri calistirmak ve control etmek icin kullanacagiz)
+ d. stepdefinitions (kodlarimizi burada olusturacagiz)
+ 7. Projeyesagclickyapipconfiguration.propertiesdosyasiolusturalim
+ 8. Utilities paketi altinda Driver ve ConfigReader Class’larini olusturalim .Ve içlerine kodları koyalım.
+ 9. test paketi altinda yeni bir klasor olusturalim : resources
+ NOT: Eger resources oluşturunca üstünde bayrak gibi sekiller çıkmadıysa: sag tıkla =>mark drectory as
+ => test resources root
+ 10. resources klasoru altinda yeni bir klasor olusturalim : features (Java kodu icermeyen dosyalari buraya koyacagiz)
+ 11. features’a sag clik yapip dosya olusturalim ilkfeaturefile.feature
+ 12. cucumber plugin’i intelliJ’e ekleyelim (settings/Plugins) (fuature fileların yeşil gözükmesi için)
+ 1.(Mac)IntelliJ Idea->Preference->Plugins->Marketplace->Type Cucumber for Java->Install->Restart
+ 2.(Windows)File->Settings->->Plugins->Marketplace->Type Cucumber for Java->Install->Restart
+ 13.Eger “gherkin” ve “cucumber for java” yoksa intellj de bunlarıda install etmeliyiz.
+
+   *************
+
+   "first_feature_file.feature" olusturduk ve icine test cse yazdık ve runner" clası olusturduk.
+   Feature file da steplerini yazdıgımız test casemizin "runner"ı CALISTIRARAK implement
+   olmayan stepdefinitionlarımızı olusturduk.Daha sonra
+   ---
+   @RunWith(Cucumber.class)
+   @CucumberOptions(
+           features = "src/test/resources/features",
+           glue = {"stepdefinitions"},
+   )
+
+   public class Runner {
+   }
+---
+      ******
+
+        "first_feature_file.feature"
+    #  Feature file is used to create test cases.
+    #  All feature files must begin with "Feature:" keyword
+    #  Feature : Declare the file is a feature file. Mandatory. There can be ONLY one Feature: keyword
+    #  Scenario(test case) : To create test case. In a feature file there may be more than one "Scenario:"
+    #  Test case icin her bir adım Given,When, And, Then, But, * kelimelerinden biriyle baslamalıdır.
+    #  Runner : To run the feature files.
+    #  Background : Used to run before each scenario. This is used for repeated pre-conditions.
+    #  CUCUMBER STEPS
+    #  1. create feature file and test scenarios
+    #  2. run the feature file and generate step definitions. dryRun=true
+    #  3. use the step definitions to complete the Java code
+    #  4. dryRun=false to execute test cases
+
+    #     QUESTIONS:
+    #  1. Does spelling important in FF and Step defs? YES -FF ve Adım tanımlarında yazım önemli midir?
+    #  2. Does order of steps in Feature file matters? YES -Özellik dosyasındaki adımların sırası önemli mi?
+    #   Because tests are run from TOP to BOTTOM in the feature file -Çünkü testler özellik dosyasında ÜSTTEN ALTINA doğru yürütülür
+    #  3. Does order of step definitions on step definitions folder matters? NO -Adım tanımları klasöründeki adım tanımlarının sırası önemli midir? HAYIR
+    #   Because the tests run based of the steps NOT BASED ON THE STEP DEFINITIONS -Çünkü testler ADIM TANIMLARINA DAYALI DEĞİL, adımlara göre yürütülür
+
+    **********
+      "Runner" class
+     runner classı Main mrthod gibi ,testlerimizi calıstırmak icin kullanıyoruz
+   // glue = {"stepdefinitions", "hooks"},     ==>> When we have multiple data we use curly braces and comma between tags. If we have single, we only use "" double-quotes
+   /*
+    features = "./src/test/resources/features",//PATH OF FEATURES FOLDER
+    glue = "stepdefinitions", //PATH OF STEP DEFINITIONS. stepdefinitions ile ruuner classlarının bulundugu packageler aynı dosyanın altında yanı bulundukları dosya kardes o nedenle path olustururken ta bastan(./src/test...) yazmadık.
+    dryRun = false //IF dryRun = true. RUN DRY. JUST GIVE ME THE MISSING STEP DEFINITIONS. DON'T RUN THE TEST CASES.
+    dryRun= false when we are doing test execution. dryRun=true when we are generation missing step definitions
+    dryRun = true : RUN DRY! Just give me the step definitions. Do not run test cases. It will save time.
+    */
+
+   /*
+   @RunWith is used to run the class. Without this, Runner class will not be runnable
+   @CucumberOptions is used to add feature path, step definition path,tags, dryRun, report plug ins
+   tags : this marks which feature file to run. We add this tag in the feature files to run specific test cases.
+    */
+
+   /*
+   When you run Runner, it will go to feature file, and start execution from top to bottom.
+   If there is any step matching, Java will find that matching 'step definition', and it will be executed.
+   If there is no match then Cucumber will generate template for us in the console.
+    */
+         *********
+  To open HTML report right click / Open in / Browser / Chrome
+  For Cucumber and Json reports we just double-click and open in IntelliJ
+        *********
