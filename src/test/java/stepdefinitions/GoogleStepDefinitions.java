@@ -33,7 +33,8 @@ public class GoogleStepDefinitions {
     public void verify_page_title_contains_i_phone() {
 //      WRITE THE JAVA CODE
         Assert.assertTrue(Driver.getDriver().getTitle().contains("iPhone"));
-
+       // Assert.assertTrue(Driver.getDriver().getPageSource().contains("iPhone"));
+        // getPageSource() sayfanın yapısını verir.Sayfaya gelip sag tıklayınca "view page source" yaptıgı seyi verir, html codlarında arar
     }
 
     @Then("close the application")
@@ -49,6 +50,7 @@ public class GoogleStepDefinitions {
 
     @Then("verify page title contains TeaPot")
     public void verify_page_title_contains_tea_pot() {
+        Driver.wait(2);
         Assert.assertTrue(Driver.getDriver().getTitle().contains("TeaPot"));
     }
 

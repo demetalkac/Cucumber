@@ -69,6 +69,14 @@ Understandable by all agile members: Cucumber connects the non technical and tec
     #  3. use the step definitions to complete the Java code
     #  4. dryRun=false to execute test cases
 
+        **Unimplemented(tanimlanmamis) Step Definitions**
+    NOTE: IF YOUR SEE io.cucumber.junit.UndefinedStepException: THEN YOU HAVE MISSING STEP DEFINITION
+    IT MEANS YOU HAVE A STEP THAT DOESN”T HAVE A JAVA CODE
+    SOLUTION: COPY THE STEP DEFINITION AND PASTE IN STEP DEFINITION CLASS
+    NOTE: When you add a NEW step, then we use dryRun=true, to generate the missing step definition
+          with out waiting the test executions.
+
+          ****
     #     QUESTIONS:
     #  1. Does spelling important in FF and Step defs? YES -FF ve Adım tanımlarında yazım önemli midir?
     #  2. Does order of steps in Feature file matters? YES -Özellik dosyasındaki adımların sırası önemli mi?
@@ -103,3 +111,35 @@ Understandable by all agile members: Cucumber connects the non technical and tec
   To open HTML report right click / Open in / Browser / Chrome
   For Cucumber and Json reports we just double-click and open in IntelliJ
         *********
+     TEST YAPMA:
+     *Feature file olustur,icine görkin ile stepleri yaz=> Runner classını run et=> console dan
+      missing step definitions ları kopyala => stepdefinition packagende  "GoogleStepDefinitions"
+      classını olustur ve oraya yapıstır.=> "GooglePage" olusturup locateları koyalım
+      -  first_feature_file.feature => google ile ilgili
+      -  GoogleStepDefinitions
+      - GooglePage
+
+      *********
+  NOT: Assert.assertTrue(Driver.getDriver().getTitle().contains("iPhone"));
+      // Assert.assertTrue(Driver.getDriver().getPageSource().contains("iPhone"));
+      getPageSource() sayfanın yapısını verir.Sayfaya gelip sag tıklayınca "view page source"
+       yaptıgı seyi verir, html codlarında arar
+
+   *****************
+      TAGS
+   -Belirli senaryoları calıstırmak icin cucumber tag leri kullanılır
+   -Feature, Scenerio, Scenario Outline, Examples kelimeleri ile birlikte kullanılır
+   -"And tag": farklı Scenario'larda farklı tag kullanılabilir.Biz aynı anda iki tag'i
+   calıstırabilriz run classından.Run classında calıstırdıgımız bu 2 tag arasına "and" yazarak yaparız.
+  ör: @regresion and @smoke => hem @regresion tagı olan scenario ları hem de "@smoke" tagi olan scenario ları
+      birlikte aynı scenario da ise calıstırır.2 tag'in oldugu scnarioları calıstırı, biri yoksa calısmaz o scenario.
+   -"Or tag" :ör: @regresion or @smoke => Run classında calıstırdıgımızda ,hangi scenario da ,"@regresion" tagi ve  "@smoke" tagi olan scenario'yu calıstırır.
+                Veya bu 2 tagden bir tanesi varsa yeterli o scnario'yuda calıstırır.
+
+   ***********
+         "background"
+    @Background is used for running the prerequisites
+   It will run BEFORE EACH SCENARIO
+   For example, if there are 5 scenarios on the same feature feel, background runs 5 times
+   It is used to avoid repetitions
+   This is similar to BeforeMethod in testNG
