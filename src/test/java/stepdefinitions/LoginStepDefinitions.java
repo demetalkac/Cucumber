@@ -17,7 +17,7 @@ public class LoginStepDefinitions {
     @Given("user enters customer_email and customer_password")
     public void user_enters_customer_email_and_customer_password(DataTable credentials) {
 //        1. GET DATA AS LIST OF STRING
-//        List<String> customerData = credentials.row(1); // row index start at 0
+//        List<String> customerData = credentials.row(1); // row index start at 0'dır,o nedenle 1. satırdaki bilgileri kullanacagız
 //        System.out.println(customerData.get(0));
 //        System.out.println(customerData.get(1));
 //        System.out.println(credentials.row(1).get(0));//2nd row 1st column
@@ -26,13 +26,13 @@ public class LoginStepDefinitions {
 //        blueRentalLoginPage.password.sendKeys(customerData.get(1));
 //        blueRentalLoginPage.loginButton.click();
 
-
+  //NOT: "credentials." yapınca datatable a ait methodları cagırabiliyoruz.
 //      2.GET DATA AS <LIST<MAP<STRING, STRING>>
         List<Map<String, String>> customerData = credentials.asMaps(String.class, String.class);
 
         //        System.out.println(customerData);
         for (Map<String,String> each : customerData){
-            blueRentalLoginPage.userName.sendKeys(each.get("username"));
+            blueRentalLoginPage.userName.sendKeys(each.get("username")); // key girince value yu verecek bize
             blueRentalLoginPage.password.sendKeys(each.get("password"));
             blueRentalLoginPage.loginButton.click();
         }

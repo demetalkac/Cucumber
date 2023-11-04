@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
                 "rerun:target/failedRerun.txt"
         },
         monochrome=false,
-        features = "@target/failedRerun.txt",
+        features = "@target/failedRerun.txt", // .txt dosya path. "@target" yazarken basına @ isaretini ekledik test'in dısında target da oldugu icin
         glue = {"stepdefinitions", "hooks"},
         dryRun = false
 

@@ -24,3 +24,4 @@ Feature: Search_Feature
     Then close the application
 
 #      "" is used to parameterize feature file
+#  Birden cok scenario yu parametre kullanarak ilk scenario icin yazdıgımız kodları diger scanoriolar da da kullanara yapmıs olduk

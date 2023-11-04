@@ -2,6 +2,7 @@
 Feature: data_tables
   Scenario: customer_login
     Given user is on "http://www.bluerentalcars.com/login" page
+# || => datatyble olusturmak icin kullanılır.Burda datatable olusturdugumuz icin definitions classta datatyble ile ilgili methodları kullanabiliriz.
     And user enters customer_email and customer_password
       | username       | password |
       | jack@gmail.com | 12345    |

@@ -61,6 +61,7 @@ public class GoogleStepDefinitions {
 
     @Then("verify page title contains {string}")
     public void verify_page_title_contains(String string) {
+        Driver.wait(2);
         Assert.assertTrue(Driver.getDriver().getTitle().contains(string));
     }
 

@@ -23,3 +23,5 @@ Feature: data_tables
       | sam       | walten   | businessman   | LA    | 5262      | 2023-01-24 | 200000 |
       | nancy      | brown    | developer   | Dallas   | 2346      | 2023-01-25 | 85000 |
       | george      | bush    | politician   | Dallas    | 9931      | 2023-01-26 | 985000 |
+
+    #"day25_scenario_outline2.feature, DataTablesPage"

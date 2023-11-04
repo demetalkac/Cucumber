@@ -5,6 +5,23 @@ import pages.DataTablesPage;
 import utilities.Driver;
 
 public class DataTablesStepDefinitions {
+
+    /*
+    "day25_scenario_outline2.feature, DataTablesPage"
+       Yeni kullanıcı oluşturma Given user is on the application
+       And enter all fields
+       Then user should be able to find the data with first name
+       STORY NAME:
+       AC:
+           https://editor.datatables.net/
+       When user go to https://editor.datatables.net/
+       Click on the new button
+       When user enters all fields
+       When clicks create button
+      And search for the first name
+      Then verify the name fields contains first name
+      NOTE: Try getting the test data in different forms:
+     */
     DataTablesPage dataTablesPage = new DataTablesPage();
 
     @Given("user is on {string} page")
@@ -14,10 +31,12 @@ public class DataTablesStepDefinitions {
     @Given("user clicks on the new button")
     public void user_clicks_on_the_new_button() {
         dataTablesPage.newButton.click();
+      // Driver.waitAndClick(dataTablesPage.newButton,10); eger button tıklamasa böyle de kullanılır.Dinamik olarak 10 saniye kadar element tıklaması icin bekler
     }
     @Given("user enters first name {string}")
     public void user_enters_first_name(String string) {
         dataTablesPage.firstName.sendKeys(string);
+      //  Driver.waitAndSendText(dataTablesPage.firstName,string,10);
     }
     @Given("user enters last name {string}")
     public void user_enters_last_name(String string) {

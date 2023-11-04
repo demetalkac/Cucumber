@@ -143,3 +143,626 @@ Understandable by all agile members: Cucumber connects the non technical and tec
    For example, if there are 5 scenarios on the same feature feel, background runs 5 times
    It is used to avoid repetitions
    This is similar to BeforeMethod in testNG
+
+   ***********
+  CUCUMBER REVIEW
+  !!!!!! *What is cucumber?
+  -Cucumber is a testing framework. It is a BDD(Behaviour Driven Development) framework.
+  -BDD means we describe the behavior(functionality) in the feature file first, then write the code
+  *What is feature file?
+  -It is used to write test cases in Gherkin language. It has keywords like given, when , then,...This is plane English.
+  *What is Background?
+  -It is used for repeated PRE CONDITIONS. This runs before each Scenario keyword.
+  *What is Scenario:
+  -It is used to create test cases in feature files. I can use more than 1 scenario keyword in a future file.
+  *What is Feature:
+  -This is used to create a feature file. Each feature file must begin with a Feature keyword. They cannot be more than 1 Feature keyword in a feature file
+  *How do you run specific test cases in cucumber?
+  -We use runner class to run the test cases. We can run specific test scenarios or feature files using tags.
+  *What is dryRun in cucumber?
+  -To generate missing/unimplemented step definitions, we use dryRun=true. When I want to run test cases, I do dryRun=false.
+  *What is step definition in cucumber?
+  -Technical codes goes to step definition classes. We write the java code in these classes.
+  *How do you parametrize the feature files?How do you get the data from the feature file? How do you make the test cases more reusable in cucumber.What is your strategy?
+  -String “” makes the data dynamic. We can use Scenario Outline , data tables as well
+***********************
+            *Without Parameter*
+  -burda parametre kullanmadan arama yaptık.Ve parametre kullanmadıgımız icin her scenario da
+    farklı codlar oluturduk: "first_feature_file". "GoogleStepDefinitions"icinde java kodları.
+   >>>>>< "first_feature_file"
+   @google_search
+   Feature: first feature file
+     Background: user_goes_to_google_page
+       Given user is on the google home page
+
+     @iphone_search
+     Scenario: TC_01_iphone_search
+       When user search for iPhone
+       Then verify page title contains iPhone
+       Then close the application
+
+     @teapot_search
+     Scenario: TC_02_teapot_search
+       When user search for TeaPot
+       Then verify page title contains TeaPot
+       Then close the application  >>>>><
+
+         * Parametrizing the Feature File using “” *
+  -Burda ise feature_file da stepleri yazarken parametre kullandık.Farklı scenariolar
+    olusturduk, ama ilk olusturdugumuz scenarionun java kodlarını (stepdefinitions classında) kullandık
+
+    >>>>>>>>  "day24_parameterizing_feature_files.feature"
+    @parameterizing1
+    Feature: Search_Feature
+      Background: user_goes_to_google_page
+        Given user is on the google home page
+
+      Scenario: TC01_tesla_search
+        When user search for "tesla" on google
+        Then verify page title contains "tesla"
+        Then close the application
+
+      Scenario: TC01_tesla_search
+        When user search for "mercedes" on google
+        Then verify page title contains "mercedes"
+        Then close the application
+
+      Scenario: TC01_tesla_search
+        When user search for "bmw" on google
+        Then verify page title contains "bmw"
+        Then close the application
+
+      Scenario: TC01_tesla_search
+        When user search for "nio" on google
+        Then verify page title contains "nio"
+        Then close the application   >>>>>>>>>>>>
+
+        >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        @When("user search for iPhone")
+        public void user_search_for_i_phone() {
+    //      WRITE THE JAVA CODE
+            googlePage.searchBox.sendKeys("iPhone"+ Keys.ENTER);
+
+        }
+
+        @Then("verify page title contains iPhone")
+        public void verify_page_title_contains_i_phone() {
+    //      WRITE THE JAVA CODE
+            Assert.assertTrue(Driver.getDriver().getTitle().contains("iPhone"));
+           // Assert.assertTrue(Driver.getDriver().getPageSource().contains("iPhone"));
+            // getPageSource() sayfanın yapısını verir.Sayfaya gelip sag tıklayınca "view page source" yaptıgı seyi verir, html codlarında arar
+        }
+
+        @Then("close the application")
+        public void close_the_application() {
+
+            Driver.closeDriver();
+        }
+
+        @When("user search for TeaPot")
+        public void user_search_for_tea_pot() {
+            googlePage.searchBox.sendKeys("TeaPot"+ Keys.ENTER);
+        }
+
+        @Then("verify page title contains TeaPot")
+        public void verify_page_title_contains_tea_pot() {
+            Driver.wait(2);
+            Assert.assertTrue(Driver.getDriver().getTitle().contains("TeaPot"));
+        }
+
+        @When("user search for {string} on google")
+        public void user_search_for_on_google(String string) {
+            googlePage.searchBox.sendKeys(string+Keys.ENTER);
+        }
+
+        @Then("verify page title contains {string}")
+        public void verify_page_title_contains(String string) {
+            Assert.assertTrue(Driver.getDriver().getTitle().contains(string));
+        }  >>>>>>>>>>>>>>>>>>>>>
+
+   *************************************
+          *Scenario Outline *
+  -The Scenario Outline keyword can be used to run the same Scenario multiple times, with
+    different combinations of values.
+  -Scenario Outline must be followed by Examples keyword
+  -Examples keywords is used for storing test data
+  -Testing with Scenario Outline is also knows as Data Driven Testing
+  -Documentation: https://cucumber.io/docs/gherkin/reference/#scenario-outline
+  “<column_name>” is used on Scenario outline for parameterization
+
+  -"day25_scenario_outline_1.feature"
+  -"day25_scenario_outline_2.feature" , GoogleStepDefinitions classını kullandı.
+
+  #    Scenario outline can be used instead of scenario
+  #    It will complain if we do not use Examples: keyword
+  #    One difference between parameterizing and scenario outline is that we should also use angle bracket "<search_item>" to hold the test data
+  #    Scenario outline also uses parameter
+  #    It is easier and shorter way to run multiple test cases/scenarios with different parameter
+
+  #  Scenario Outline
+  #  It is used for Data Driven Testing
+  #  It is used to run the same scenario with different data multiple times
+  #  It must be followed by an Examples keyword. Examples keyword is used to pass data
+  #  Scenario outline is used for parameterization of the feature files
+  #  It is used to pass test data dynamically
+  #  This is very common and useful in Cucumber
+ -Scenario Outline Data Driven Testing icin kullanılır
+  -yani benzer scenarioları tekrar tekrar farklı datalar iile calıstırmak icin kullanılır.
+  - Ne zaman birden fazla data ile islem yaparsak o zaman scenario outline kullanılır
+  -Scenario outline Excel ile atomasyon yapmaya benzer, tek farkı kullanımı daha kolaydır.
+       **
+   - "day25_scenario_outline2.feature",
+   - "DataTablesPage"
+   - "DataTablesStepdefinitions"
+
+   **********
+         ***Scenario Outline:***
+   What is it?
+   It is used to run the same scenario with different data multiple times
+   It must be followed by an Examples keyword. Examples keyword is used to pass data
+   Scenario Outline is used for parameterization of the feature files
+   It is used to pass test data dynamically
+   This is very common and use ful in cucumber
+
+         ***
+   OZET - TEST STEPS / TEST FLOWS IN CUCUMBER
+  1. Create feature file
+  2. Create test Scenarios (Test Cases, Test Scripts)
+  Scenario:
+  Scenario Outline:
+  3. Run the runner class to generate the missing step definitions -Missing step definitions lari step definitions a aktar
+  4. Write JAVA code in the step definitions using page object model -JAVA kodunu page object model kullanarak yap
+  NOTE: Make sure use reusable feature steps. Create new step definition when needed.
+  NOTE: Reusable feature stepsleri kullandigimizdan emin olalim. Yeni java kodlarini sadece ihtiyac oldukça oluştururuz
+
+**************************
+      *Cucumber HMTL reports*
+ We need to add reports plug in in the Runner to get the reports We can get html, json, or junit reports
+ The most important report for testers is html reports
+
+ Cucumber ile ilk raporumuzu cucumber plugins leri @CuumberOptions a ekleyerek alacağız html,
+  json, yada junit raporlari oluşturabiliriz. En onemlisi ve kullanislisi HTML raporudur
+
+ Add below to the runner class:
+
+
+ NOTE: Ilerleyen derslerimizde maven-cucumber-reporting plug ins raporlar alacaz
+ Ayrica Spark HTML and PDF reporlari da ekleyecez(EXTENT REPORTS A BENZER)
+
+ plugin = {
+           "pretty"
+         "html:target/default-cucumber-reports.html",
+         "json:target/json-reports/cucumber.json",
+         "junit:target/xml-report/cucumber.xml"
+ },
+ monochrome=true,
+
+ monochrome=true: console bilgilerin okunaklı olması
+ pretty" : console bilgilerin okunaklı olması
+
+      * How to Open Reports *
+ -HTML ROPOR:Raporun üstüne sag tıkla=> open in browser =>chrome
+  JSON REPORT : Cift tıkla ( ctrl alt L  ile düzenliyorduk) sec ve code=>reformat
+ ROPOR DOSYASINA GİTME:
+ -WİNDOWS => Raporun üstüne sag tıkla=> open in => explorer
+  MAC => Raporun üstüne sag tıkla=> Reveal in Finder
+
+ /*
+ To open HTML report right click / Open in / Browser / Chrome
+ For Cucumber and Json reports we just double-click and open in IntelliJ
+  */
+  **  Runner class **
+  @RunWith(Cucumber.class)
+  @CucumberOptions(
+          plugin = {
+                  "pretty",
+                  "html:target/default-cucumber-reports.html",
+                  "json:target/json-reports/cucumber.json",
+                  "junit:target/xml-report/cucumber.xml",
+                  "rerun:target/failedRerun.txt",
+                  "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
+          },
+          monochrome=false,
+          features = "src/test/resources/features",
+          glue = {"stepdefinitions", "hooks"},
+          dryRun = false,
+          tags = "@scenario_outline"
+
+  )
+
+  public class Runner {
+  }
+     ***Cucumber reports plugins***
+ We can easily generate cucumber reports using report plugins in the runner
+ We can generate different reports such as HTML, json, and xml; but the most common one is the HTML report
+  */
+
+ /*
+ NOTE: "rerun:target/failedRerun.txt"
+ This is going to generate text file if something fails
+  */
+ NOT: Tester olarak HTML eaporlarını kullanıyoruz.
+      Json raporu daha cok developerlar kullanır, kodlarla gözüktügü icin herkes anlamaz.
+
+      ****
+   To pass multiple different data
+   To make the steps reusable
+   To make the code shorter and cleaner
+   Scenario Outline is especially useful for running with multiple data for the same scenarios.
+   Search item where item = Tesla, Honda, Nissan,...
+   Create reservation with different user info where user info ={name=Jim,id=1}, {name=John,id=10},{name=Sam,id=80},...
+
+************************************************
+   Summary of the last class
+   Scenario Outline:
+   *What is it?
+   -It is used to run the same scenario with different data multiple times
+   -It must be followed by an Examples keyword. Examples keyword is used to pass data
+   - Scenario Outline is used for parametrizating of the feature files
+   -It is used to pass test data dynamically
+   -This is very common and use ful in cucumber
+   *Cucumber reports plugins
+   -We can easily generate cucumber reports using report plugins in the runner
+   -We can generate different reports such as HTML, json, and xml; but the most common one is the HTML report
+
+*******************************************
+         ** DATA TABLES**
+
+     **day26_data_tables.feature**
+  @data_tables_1
+  Feature: data_tables
+    Scenario: customer_login
+      Given user is on "http://www.bluerentalcars.com/login" page
+   # || => datatyble olusturmak icin kullanılır.Burda datatable olusturdugumuz icin definitions
+   # classta datatyble ile ilgili methodları kullanabiliriz.
+      And user enters customer_email and customer_password
+        | username       | password |
+        | jack@gmail.com | 12345    |
+      Then verify the application login is successful
+      And close the applicatio
+       ***
+       -BlueRentalLoginPage
+       -LoginStepDefinitions class
+
+
+  **#    It is also used for Data Driven Testing but not as common as Scenario Outline
+    #    Data tables are used to pass multiple test data dynamically just like Scenario Outline, and String
+    #    This functionality is coming from Cucumber(JUnit and TestNG does not have it)
+    #    To use data tables, use | | Pipes in feature file steps
+    #    In data table we do not have 'Examples' keyword
+    #    Data table can be used in any step but Examples keyword must be used at the end of the scenario
+    #    In data tables, we use 'Scenario' keyword instead of Scenario Outline keyword
+    #    Data tables return 'DataTables' object in the method
+    #    Scenario outline returns 'String' in the method
+    #    We can get data in different forms such as List<String>, List<Map<String, List<List<String, ...
+    #    Scenario outline automatically skip the column names , understands that the column names are not test data, start from the
+    #    But in data table, it is not straightforward, we put everything including first line of code in a collection and than we use data starting from the second row
+
+
+    #    In Regular FF steps ==>> no reusable step definitions, 1 scenario
+    #    Parameterizing with "" ==>> reusable step defs, pass multiple data easily, 1 scenario
+    #    Parameterizing with Scenario Outline ==>> #1 choice in Cucumber framework, same scenario multiple different data,
+    #                                               reusable step defs, pass multiple data easily
+    #    Parameterizing with Data tables ==>> same scenario multiple different data, reusable step defs, pass multiple data easily
+ ***
+
+   DataTables in cucumber
+   -DataTables are user to pass test data
+   -We especially use DataTables for passing multiple data
+   - DataTables are similar to Scenario Outline
+   *Difference between DataTables and Scenario Outline?
+   -In DataTables No Examples keyword
+   -DataTables can be use in ANY STEP to provide data, but Examples keyword can ONLY be used at the end of the scenario to provide data
+   -In DataTables, use Scenario:
+   -In Scenario Outline: use Scenario Outline and Examples
+   -DataTables returns DataTables object in the method, so we have to use Collections to use them in the step definitions
+   -Scenario Outline returns a string in the method, so it is easier to get and use.
+   **DataTables are not as popular as Scenario Outline.
+           **Scenario Outline VS Data Tables **
+ -Scenari Outline ile DDT yapılabilir. Scenario Outline iyi bilinmelidir. -Test adimlarini(STEPS) data reusable yapmak icin kullanilir
+ -En çok kullanılan cucumber ozelliklerinden biridir
+ -Examples kelimesi veri girisleri icin kullanilmalidir
+ -Step definitionslardaki data tipi STRINGdir
+ -Examples kelimesi en sonda kullanilir
+ Data Tables ile DDT yapılabilir
+ -Test adimlarini(STEPS) data reusable yapmak icin kullanilir
+ -Scenari Outline kadar yaygın degildir
+ -Examples kelimesi kullanılmaz
+ -Step definitionslardaki data tipi DATATABLE
+ -DataTablelar ara adimlardada(STEPS) kullanilabilir
+ NOT: Datatables ve Scenario Outline birlikle kullanilabilir, olmadanda kullanılabilir.
+  *Datatable kodlar arasına yazılır feature file icinde.
+
+   *****************************************
+      HOOKS
+  *What is hooks?
+     -Hooks is a class that runs Before or After each Scenario
+
+  * Why do you use?
+     -I use hooks class to generate the reports with screenshot.
+     -My after method especially helpful to capture screenshot when a Scenario fails automatically.
+  *What is in it? Hooks da ne tur kodlar var
+     -It has Before and After methods. I have reports method to capture the screenshot
+  -----
+  MY NOTES
+  -Testng deki liseners lara benzer
+  -Before ve after methodlaı gibi junitteki.
+  -Her bir “Scenario” veya “Senario Outline” öncesi ve sonrasında calısmasını istediğimiz methodları hooks içine koyarız
+  -Cucumber-java dan gelecek
+  -After methoda screenshot ekleyeceğiz scenario kalırsa ekran görüntüsünü alacak, HTML raporunun içine ekleyecek.
+  - Hooks clasını bazı framework lerde “stepdefinitions” package ine koyabiliyorlar ama biz “hooks” adında yeni bir package  oluşturup oraya kayacağız.İstedigimizde çalıştırmak, istemediğimizde çalıştırmamak için.
+  -Java sag tıkla => new package => name:hooks => içine de “Hooks” clası oluştur.
+  -Hooks classına after ve before methodlarını ekleyip icleine kodları yaz
+  -Test caseleri çalıştırırken hooksun görülebilmesi için de “Runner” clasında glue’nın içine hooks u eklemeliyiz.(cift tırnak içine almayı unutma)
+
+  glue = {"stepdefinitions", "hooks"},
+    ----
+    *Hooks classı*
+public class Hooks {
+    /*
+    Hooks is used to run before and after each SCENARIO
+    i.g. If feature file has 2 scenario, Hooks will be run 2 times. It is based on the Scenario.
+    To be able to run the Hooks class, we use 'glue' tag in Runner class, put "hooks" as parameter
+    By putting specific tag like @After("@browser and not @headless") we can put a condition to run the Hooks class => Conditional hooks
+    When we add Hooks to our runner it will generate report automatically and plus it will take screenshot if something fails.
+    Run from runner class. It will generate HTML report and screenshot under "Target -> xml-report -> default-cucumber-reports.html" => right click and open in browser
+     */
+    @Before //comes from cucumber.java(not JUnit)
+    public void setUpScenario(){
+//        System.out.println("Before Method");
+    }
+
+
+    //This after method will understand automatically if the scenario is passed, skipped, or failed(like Listeners in TestNG)
+    @After
+    public void tearDownScenario(Scenario scenario){
+//        System.out.println("After Method");
+        if(scenario.isFailed()){//capturing the screenshot when a scenario fails and attaching to the report
+            final byte[] failedScreenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
+//                        ekran görüntüsü               file tipi            ekran görüntsnün adı
+            scenario.attach(failedScreenshot, "image/png", "failed_scenario"+scenario.getName()+"");
+            Driver.closeDriver();
+        }
+    }
+// failedScreenshot: 3 tane parametre istiyor:ilki;ekran görüntüsü, ikincisi; miediaType,
+// yani image mi olacak baska biseymi, onu belirtiyoruz. ücüncüsü;screenshot a isim ver
+   ----------------
+   /*
+   Hooks is just a Java class, but is a special class. It is running 'before' or especially 'after' each Scenario.
+   After method is usually used to capture screenshot.
+   Like a TestBase class.
+   Hooks is specific for Cucumber.
+   We can put the code that we want to run before and after each Scenario.
+    */
+
+   /*
+   Why do we use Hooks class in our framework?
+   We use hooks class to generate the reports with screenshot.
+   My after method especially helpful to capture screenshot when a Scenario fails automatically.
+   What is in it?
+   It has Before and After methods. I have reports method to capture the screenshot
+    */
+******************
+  Cucumber raporlarini cloud a ekleme
+
+  Testi çalıştırdıktan sonra Terminalde çıkan kutucuk içinde bize “cucumber.properties” nasıl
+  oluşturmamızı söylüyor. Yukarda belirtti yöntemlerden ilkini kullandık.
+  1.resources dosyasinin allinda cucumber properties dosyasi olustur: cucumber.properties:
+    => resources=>new file => cucumber.properties
+  NOT: cucumber.properties bu isim özel olduğu için tam yazmalıyız.
+
+  2. Su kodu ekle: cucumber.publish.enabled-true
+
+  3.Testi calistir.Terminalde testi süit seviyesinde olan yeri ac, sonra
+    “View your Cucumber Report at:” yazısının altındaki linke tıkla:
+  Bu sekilde cucumber html raporu cloud yuklenecektir. Fakat GitHub ile girls yapilmassa
+  24 saat icinde silinecektir. Bu yüzden GitHub ile giris yapalim.
+
+  4. Login with GitHub a tikla > Authorize SmartBear
+
+  5. Create Collection : rapor ismi ver: my-cucumber-report
+
+  6. Cıkan Tokeni cucumber.properties e ekle
+
+  7. Testi tekrar çalistir. Terminalde kutucuk içinde çıkan linke tıklarsak Collections
+     klasöründe oluşan  raporları görebiliriz..
+
+  8. Raporda “share report collection” tıklayınca linki başkalarıyla paylaşabiliriz.
+
+******************************************
+     EXCEL
+
+     1. Get the apache poi dependencies
+     <dependency>
+     <groupId>org.apache.poi</groupId>
+     <artifactId>poi-ooxml</artifactId>
+     <version>4.1.2</version>
+     </dependency>
+     Ve
+     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+      <dependency>
+     <groupId>org.apache.poi</groupId>
+     <artifactId>poi</artifactId> <version>4.1.2</version>
+     </dependency>
+
+     2. Create a feature file and step definitions-Feature File e Step definitions lari olustur
+     3. Add ExcelUtil in your utilities package - "ExcelUtil"clasını i "utilities" package ne ekle
+     4. Add a folder under resource : testdata => resources sag tık=> new =>directory name:testdata
+     Olusturdugumuz "testdata"ın icine bizdeki excel dosyasını koy(kopyala-yapıstır)
+     Add smoketestdata sheet in that folder
+     5.Bizim excel dosyamız "blueRental" a ait oldugu icin, onunla ilgili yapacagımız test icin
+       "BlueRentalHomePage" ve "BlueRentalLoginPage" lerini olusturup icine locate lerimizi koymamız gerek
+       "BlueRentalHomePage" classı vardı ama "BlueRentalLoginPage" classını da excel icin olusturduk.(testng dekinin aynısın yapıyoruz)
+       Aslında bunları "ExcelStepDefinitions" classda homePage ve loginPage den obje olusturup excel deki verileri kullanacagız.
+
+     5. Complete your step definitions
+
+
+   **day27_excel_automation.feature**
+  @excel_customer_login
+  Feature: excel_login_feature
+
+    Scenario: TC_customer_credentials_test
+      Given user tries to login as "customer_info"
+      Then verify login is successful
+      Then capture the screenshot
+      Then close the application
+
+    @admin_excel
+    Scenario: TC_admin_credentials_test
+      Given user tries to login as "admin_info"
+      Then verify login is successful
+      Then capture the screenshot
+      Then close the application
+
+
+  # Excel Test Steps :
+  # I added apache.poi poi-ooxml and poi dependencies in my pom.xml file
+  # I have excel utils class in my Cucumber framework to run test cases with my excel sheet.
+  # I created my feature file. And generated step definitions. "ExcelStepDefinitions"
+  # In my configuration.properties file, I put the url and credentials(username, password) to login the application
+  # I created one more folder named TestData under resources to put the excel file in it and dragged and dropped the excel file.(smoketestdata.xlsx)
+  # I completed stepdefs and wrote Java codes.
+  #   Step Definitions
+  #   @Given("user tries to login as {string}")
+  #    public void user_tries_to_login_as(String sheet) throws IOException { //sheet is representing "customer_info" in feature file
+  #        String path = "./src/test/resources/testdata/mysmoketestdata.xlsx"; // path of the excel sheet(content root)
+  #        String sheetName = sheet;
+  #        excelUtil = new ExcelUtil(path, sheetName);
+  #        allTestData = excelUtil.getDataList();
+  #//        USING LOOP GET THE VALUES FROM THE MAP AND SEND INTO THE UI
+  #        for (Map<String, String> eachData : allTestData) {
+  #//            Takes us to the login page
+  #            login();
+  #            blueRentalLoginPage.userName.sendKeys(eachData.get("username"));
+  #            blueRentalLoginPage.password.sendKeys(eachData.get("password"));
+  #            blueRentalLoginPage.loginButton.click();
+  #//            Verify if login is successful
+  #//            IF USER ID IS DISPLAYED THEN LOGIN IS SUCCESSFUL
+  #            Assert.assertTrue(blueRentalHomePage.userID.isDisplayed());
+  #            ReusableMethods.getScreenshot(eachData.get("username"));
+  #        }
+  #  Only difference between TestNG and Cucumber Excel test is in testNG we do nor use Gherkin language, we use @Test annotation.
+  #  But in Cucumber we use Gherkin language in feature file.
+
+  **
+   - ExcelStepDefinitions class
+   - ExcelUtil classını utilities package ne ekliyoruz
+
+NOT: ExcelStepDefinitions2 VE day27_excel_automation.feature BEN EXTRADAN OLUSTURDUM BIRAZ FARKLILIKLAR VAR
+
+*****************************
+    Rerunning only failed Scenarios -Failed Scenario lari Tekrar calistirma
+    Rerun Failed Scenarios
+    -In TestNG we use Listeners to run if a test case fails- -TestNG de Listeners lari Failed Scenariolari tekrar calistirmak icin kullaniriz
+
+    - In Cucumber, we just used rerun plugin - Cucumber da, sadece rerun plugin i Runnera eklememiz yeterlidir
+    **
+
+    Question : You have 500 test cases you are running. It takes 6 hours. 10 of them failed 490 passed Then what do you do??????
+    Answer : I would run only Failed scenarios again
+    Question : How?
+    Answer : If a scenario fails, then my framework generates a report. In that report file, I can see what failed. I run that file only so that the failed scenarios can run only. - Kalan test olursa, sadece bu test caselerin olustugu bir rapor olusturulur. Bu raporda hangi test caselerin fail ettigi gorulur. Sadece bu rapordaki test caseler calistirilir.
+    **
+     KALAN TESTİN TEKRAR CALISTIRMA ADIMLARI:
+    *STEP 1: Add rerun plugin in the Runner class:
+    -“rerun:target/failedRerun.txt" :BUNUN ANLAMI; eger bir test kalırsa “target” dosyası altında
+      “failedRerun.txt” dosyası oluştur ve bu dosyaya sadece kalan test saneriolarını ekle
+    -This plugin generated a new .txt file under target folder that will have ONLY FAILEL SCENARIOS - Bu plugins Sadece Failed test caselerin bulunduğu bir .txt file oluşturur.
+    *STEP 2: Create a new Runner class to run ONLY FAILED SCENARIOS: - Bu .txt file’i calistirmak icin yeni bir Runner class olusturur
+
+     ** "FailedScenarioRunner" CLASSI**
+   package runners;
+   import io.cucumber.junit.Cucumber;
+   import io.cucumber.junit.CucumberOptions;
+   import org.junit.runner.RunWith;
+
+   @RunWith(Cucumber.class)
+   @CucumberOptions(
+           plugin = {
+                   "pretty",
+                   "html:target/default-cucumber-reports.html",
+                   "json:target/json-reports/cucumber.json",
+                   "junit:target/xml-report/cucumber.xml",
+                   "rerun:target/failedRerun.txt"
+           },
+           monochrome=false,
+           features = "@target/failedRerun.txt", // .txt dosya path. "@target" yazarken basına @ isaretini ekledik test'in dısında target da oldugu icin
+           glue = {"stepdefinitions", "hooks"},
+           dryRun = false
+
+   )
+   public class FailedScenarioRunner {
+
+   }
+   /*
+   This runner class is used to run only failedRerun.txt file
+   That file only has failed scenarios if any scenario fails
+   That file will be empty if no scenario fails
+   We do not use tag or path of the features folder
+    */
+
+ **MY NOTES:
+  - Test senaryolarımızı normal "Runner" class da calıstır
+  - Calıstırdıgın test senaryolarından kalan olursa runner icinde koydugumuz: "rerun:target/failedRerun.txt",
+   ile targetta "failedRerun.txt" dosyası olusacak.
+  - Bu dosyayı cift tıklayıp actıgımızda bize fail eden sanaryoyu verir
+   örn: file:src/test/resources/features/seleniumgrid/day27_excel_automation2.feature:4
+   Sonundaki rakam "4" fail olan senaryonun satırını gösterir.
+  - Bu senaryoyu tekrar calıstırmak iccin bu sefer yeni olusturdugumuz "FailedScenarioRunner" classına
+    gidip tekrar run yapıyoruz.Kactane kalan test varsa bu runnerdan calıstırıyoruz ve senaryonun kalıs
+    sebeplerine bakıp düzeltebilirsek tekrar FailedScenarioRunner dan calıstırıyoruz,
+    eger testimiz gecerse "failedRerun.txt" dosyasını actıgımızda bos oldugunu görürüz.
+
+**
+  /*
+  1. How do we run only failed scenarios?
+          I have rerun plugin in the runner that generates the lines for only failed scenarios
+  2. If all our tests passed, do we see any scenario on the .txt file?
+          No b/c rerun text file stores only failed scenario lines
+  3. What happens when we try to rerun the failedRunner if there is no failed scenarios
+  last time?
+          No tests will run cause the text file is empty(it will be just skipped)
+   */
+
+  /*
+  ==>> In TestNG, we use Listeners Retry to rerun the failed test.
+  ==>> In Cucumber, we use "Rerun plugin" in the runner. It is easier than testNG.
+  ==>> If a test/assertion fails, this rerun plugin puts those failed steps into the rerun.txt file.
+       So instead of running everything, we just run the txt file that has only failed scenario.
+       In the rerun.txt file :
+       Full path of the failed scenario : Feature file path -  features folder - feature file name - line number
+  ==>> How can I run the failedRerun.txt file that has failed scenario when a test fails? Because I should run only the failed scenario.
+       Answer : We should create a new runner class to run only this txt file. (FailedScenarioRunner)
+                This class exactly the same as normal runner class except features : path. =>  features = "@target/failed.txt",
+                We do not need tag because if we use a tag this will try to find test scenarios but in the text file we do not have a tag.
+  ==>> If we run normal runner we run everything from the beginning, but if we run failedScenarioRunner we run only the failedRerun.txt file.
+   */
+
+**
+  1. How do you run only failed scenarios?
+  I have rerun plugin in the runner that generates the lines for only failed scenarios - Rerun plugin yardimiyla olusturulan rapor dosyasini tekrar calistirilir.
+  2. If all your tests passed, do you see the any scenario on the .txt file?
+  No b/c rerun text file stores only failed scenario lines - Hayir Failed test case olmamasi durumunda .txt de scerio bulunmaz
+  3. What happens when you try to rerun the failedRunner if there is no failed scenarios last time?
+  No tests will run cause the text file is empty
+  ***
+  **Runner classına “"rerun:target/failedRerun.txt", ekledik.
+  Interview Questions
+  *What is difference between Data driven and keyword driven framework and Hybrid framework?
+  DATA DRIVEN:
+  -Testing the tests cases with multiple data. In Data driven testing, we sent multiple data and expect them to pass. If something fails, then dev fix and test with same data until all tests cases pass. Excel data, database data, xml data, scenario outline data,...
+  KEYWORD DRIVEN:
+  -The above categorization can be done and maintained with the help of Excel spread sheet:
+  -Test Step: It is a very small description of the Test Step or the description of the Action going to perform on Test Object.
+  -Test Object: It is the name of the Web Page object/element, like Username & Password.
+  -Action: It is the name of the action, which is going to perform on any Object such as click, open browser, input etc.
+  -Test Data: Data can be any value which is needed by the Object to perform any action, like Username value for Username field.
+  HYBRID FRAMEWORK
+  -A framework that can do both Behavior Driven Testing and Data Driven Testing
+  *Normally we used excel in Junit excel in Test NG, excel in cucumber
+  Ahmet works in Blue Car rental compony
+  Framework: Cucumber BDD framework
+  We mostly do BDD, but we can do TDD with cucumber using a)scenario outline b) excel
+
+

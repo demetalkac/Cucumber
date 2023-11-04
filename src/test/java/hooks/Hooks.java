@@ -29,10 +29,14 @@ public class Hooks {
 //        System.out.println("After Method");
         if(scenario.isFailed()){//capturing the screenshot when a scenario fails and attaching to the report
             final byte[] failedScreenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
+//                        ekran görüntüsü               file tipi            ekran görüntsnün adı
             scenario.attach(failedScreenshot, "image/png", "failed_scenario"+scenario.getName()+"");
             Driver.closeDriver();
         }
     }
+// failedScreenshot: 3 tane parametre istiyor:ilki;ekran görüntüsü, ikincisi; miediaType,
+// yani image mi olacak baska biseymi, onu belirtiyoruz. ücüncüsü;screenshot a isim ver
+
 
     //    This Before hooks ONLY RUNS for @smoke_test TAGGED SCENARIOS ==>> Conditional Hooks
 //    @Before(value = "@smoke_tests")
