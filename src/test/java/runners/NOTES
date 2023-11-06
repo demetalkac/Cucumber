@@ -33,6 +33,35 @@ Browser Stack
          Then we create multiple runner classes that contain TestRunner in its name
         * Then We will run from terminal : mvn clean verify or mvn clean install
 
+==> -Cucumber framework u paralel testi icin direk uygun degil, Bunun icin düzenlemeler yapmalıyız.
+     Oncelikle pom.xml de cucumber ile paralel testi mümkün kılan plug ins leri koyabiliriz. .
+     Surefire plugin:paralel testi yapmak icin
+     Failsafe plugin : Kalan testlerin diger testleri etkilememsi icin kullanılır.
+     maven-cucumber*reporting plugin: Paralel test icinde etkisi var ama daha cok rapor olusturmak icin kullanıyoruz.
+ not: "maven.apache.org/surefire/maven-surefile-plugin/"  yazınva bizi Apache meven project'e
+      götürür.Cucumber icin olanına bakılabilir.github ına bakılabilir lazım olunca.
+
+    -Birden fazla runner class olustur.Paralel test yapmak icin olusturacagımız runner
+     classlarının ismi TEstRunner icermeli. Add TestRunner classes:
+       SmokeRunner
+       RegressionRunner
+not: Olusturdugumuz runner claslarına normal Runner classındaki kodları kopyala yapıstır
+     yapıyoruz.Sadece "hooks"u(glue = {"stepdefinitions", "hooks"},burdaki pathi) siliyoruz, bazen sıkıntı olusturuyormus
+
+    --"Maven" ekliyecegz bilgisayara.Test Caselerini mvn commend ile Calistir
+     Terminali Ac.Burdaki command lardan birini calistir:
+       mvn clean verify
+       mvn clean install
+   zsh: command not found: mvn. => maven yuklu degil
+   mvn -version calistirildiginda maven versiyonu gormuyorsaniz maven yuklüdegildir
+   *maven'ın yüklü olup olmadıgına su komutlarla bakabiliriz:  "mvn -version" or  "mvn --version" or "mvn -v"
+
+
+
+
+
+
+
 ==>> Dependency Vs Plugin
 Dependency : Provides set of classes. For example, selenium dependency provides multiple
 classes such as Actions, JavascriptExecutor, findElements, … Selenium dependency is a bunch of
