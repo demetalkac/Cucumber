@@ -32,7 +32,7 @@ Browser Stack
         * We see them under target folder
          Then we create multiple runner classes that contain TestRunner in its name
         * Then We will run from terminal : mvn clean verify or mvn clean install
-
+  ***
 ==> -Cucumber framework u paralel testi icin direk uygun degil, Bunun icin düzenlemeler yapmalıyız.
      Oncelikle pom.xml de cucumber ile paralel testi mümkün kılan plug ins leri koyabiliriz. .
      Surefire plugin:paralel testi yapmak icin
@@ -48,19 +48,25 @@ Browser Stack
 not: Olusturdugumuz runner claslarına normal Runner classındaki kodları kopyala yapıstır
      yapıyoruz.Sadece "hooks"u(glue = {"stepdefinitions", "hooks"},burdaki pathi) siliyoruz, bazen sıkıntı olusturuyormus
 
-    --"Maven" ekliyecegz bilgisayara.Test Caselerini mvn commend ile Calistir
-     Terminali Ac.Burdaki command lardan birini calistir:
+    --"Maven" ekliyecegz bilgisayara.(Maven install diye aratarak bilgisayara indir ve düzenlemeleri yap youtube den bak)
+      Test Caselerini mvn commend ile calistir. Terminali Ac.Burdaki command lardan birini calistir:
        mvn clean verify
        mvn clean install
    zsh: command not found: mvn. => maven yuklu degil
    mvn -version calistirildiginda maven versiyonu gormuyorsaniz maven yuklüdegildir
    *maven'ın yüklü olup olmadıgına su komutlarla bakabiliriz:  "mvn -version" or  "mvn --version" or "mvn -v"
+   ***
+NOTE:Cucumber rapor almak icin kullanmak icin pom.xml koydugumuz plugin ler ile ilgili.Cucumber Reporting Link:
+https://mvnrepository.com/artifact/net.masterrhouthought/cucumber-reporting
+https://github.com/damianszczepanik/maven-cucumber-reporting
 
+NOTE: Bilgisayardaki terminel CMD ile testler aynı sekilde calıstırılabilir.Bu durumda
+      projenin icine girmemiz gerekir.
+      => cd dosyanın icine girmek icin kullanılr
+      =>"" cd projenin bilgisayarın pathi ""
+      örn: cd /Users/techproed/IdeaProjects/batch108CucumberProject
 
-
-
-
-
+***
 
 ==>> Dependency Vs Plugin
 Dependency : Provides set of classes. For example, selenium dependency provides multiple
@@ -89,8 +95,18 @@ I use this at the end of assertions as a proof of test execution
 
 
 **************************** SPARK REPORTS *********************************
-1. Create extent-config.xml  under resources folder
-2. Create extent.properties  under resources folder
+-Cucumber a Spart report özelligi getirmek icin "extent-config.xml" ve "extent.properties" ekleyecegiz
+ "extent.properties" =>İcine HTML ve PDF report almak icin kodları koyduk,raporun target
+  icine path ini tanımladık.Ve screenshot almak icin.
+  "extent-config.xml" => renkler ile ayarlama, rapora isim verme
+-Spark report dependency'i pom a ekle: https://mvnrepository.com/artifact/ tech.grasshopper/extentreports-cucumber7-adapter/1.6.0
+-Spark report plugin'i Runner'a ekle: "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
+-Tamamlayınca runnerdan calıstırıyoruz.Test kalsada gecsede Test-output altında "PdfReport" ,
+ "Screenshots" ve "SparkReport" dosyaları olusmalı
+
+
+1. Create "extent-config.xml"  under resources folder => new file bu ismi ver
+2. Create "extent.properties"  under resources folder
 3. Add dependencies in pom.xml https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber7-adapter/1.6.0
    Add Cucumber extent report dependency
             <!-- https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber7-adapter -->

@@ -765,4 +765,7 @@ NOT: ExcelStepDefinitions2 VE day27_excel_automation.feature BEN EXTRADAN OLUSTU
   Framework: Cucumber BDD framework
   We mostly do BDD, but we can do TDD with cucumber using a)scenario outline b) excel
 
+***********************************
+  ** PARALEL TEST NOTLARI RUNNER PACKATE I İCINDE
+  *** SPARK REPORTS NOTLARI RUNNER PACKATE I İCINDE
 
