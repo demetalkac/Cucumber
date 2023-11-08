@@ -768,4 +768,4 @@ NOT: ExcelStepDefinitions2 VE day27_excel_automation.feature BEN EXTRADAN OLUSTU
 ***********************************
   ** PARALEL TEST NOTLARI RUNNER PACKATE I İCINDE
   *** SPARK REPORTS NOTLARI RUNNER PACKATE I İCINDE
-
+  *****SELENIUM GRID NOTES*** resources=> features => seleniumgrid icinde.
