@@ -13,9 +13,9 @@ MAC: Terminal
 WINDOWS: CMD. Search>CMD>select Command Prompt
 To switch the directory use: cd /Users/techproed/Desktop/SeleniumServer
 4.Run the standalone server
-java -jar selenium-server-4.8.0.jar standalone
+java -jar selenium-server-4.15.0.jar standalone
 -------------
-5.Then you should see message: Started Selenium Standalone 4.8.0 (revision 267030adea): http://192.168.0.14:4444
+5.Then you should see message: Started Selenium Standalone 4.15.0 (revision 1d14b5521b): http://192.168.0.19:4444
 ******NOTE: So far we completed the set up and run selenium grid.
 ******Now we will create a test case and run the test case on grid
 6. We will design our test cases in cucumber.
@@ -125,4 +125,4 @@ public class GridStepDefinitions {
     *java -jar selenium-server-4.8.0.jar node
 
 
-NOTE: Control + C will stop running the terminal
+NOTE: Control + C will stop running the terminal.Terminale tıkla ve  Control + C bas

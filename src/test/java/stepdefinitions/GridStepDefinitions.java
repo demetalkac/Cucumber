@@ -18,7 +18,7 @@ public class GridStepDefinitions {
     public void user_is_on_the_application_url_using_chrome() throws MalformedURLException {
 //        RUNNING MY TEST CASE ON A REMOTE MACHINE(SELENIUM GRID) USING CHROME
 //        Selenium Grid URL
-        URL remoteURL = new URL("http://10.0.0.27:4444");
+        URL remoteURL = new URL("http://192.168.0.19:4444"); //import java.net.URL; 'dan import ettik
 //        Create RemoteWebDriver
         driver = new RemoteWebDriver(remoteURL,new ChromeOptions());
 //        Grid steps are done... Rest is the same as normal test cases
@@ -38,7 +38,7 @@ public class GridStepDefinitions {
     public void user_is_on_the_application_url_using_firefox() throws MalformedURLException {
 //        RUNNING MY TEST CASE ON A REMOTE MACHINE(SELENIUM GRID) USING FIREFOX
 //        Selenium Grid URL
-        URL remoteURL = new URL("http://10.0.0.27:4444");
+        URL remoteURL = new URL("http://192.168.0.19:4444");
 //        Create RemoteWebDriver
         driver = new RemoteWebDriver(remoteURL,new FirefoxOptions());
 //        Grid steps are done... Rest is the same as normal test cases
@@ -51,7 +51,7 @@ public class GridStepDefinitions {
     public void user_is_on_the_application_url_using_edge() throws MalformedURLException {
 //        RUNNING MY TEST CASE ON A REMOTE MACHINE(SELENIUM GRID) USING EDGE
 //        Selenium Grid URL
-        URL remoteURL = new URL("http://10.0.0.27:4444");
+        URL remoteURL = new URL("http://192.168.0.19:4444");
 //        Create RemoteWebDriver
         driver = new RemoteWebDriver(remoteURL,new EdgeOptions());
 //        Grid steps are done... Rest is the same as normal test cases
