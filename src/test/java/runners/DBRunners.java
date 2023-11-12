@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
                 "rerun:target/failedRerun.txt"
         },
         monochrome=true,
-        features = "./src/test/resources/features/jdbc",
+        features = "./src/test/resources/features/jdbc", // jbdc path ini ekledik
         glue = {"stepdefinitions"},
         dryRun = false,
         tags = "@db_read"

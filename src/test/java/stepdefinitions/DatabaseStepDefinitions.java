@@ -5,7 +5,7 @@ import org.junit.Assert;
 import utilities.DBUtils;
 import java.sql.SQLException;
 import java.util.List;
-
+//NOT: bu clss "gmibank" icin yaptık dbutilities de bu classı calıstırınca comment te aldıgım yeri ac
 public class DatabaseStepDefinitions {
     @Given("user connects to the application database")
     public void user_connects_to_the_application_database() {

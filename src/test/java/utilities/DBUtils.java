@@ -19,6 +19,7 @@ public class DBUtils {
     /**
      * DBUtils.createConnection(); -> to connect to the database
      */
+// burayı yoruma aldım cünkü database connection u farklı bir applicationın bilgileri var
 //    public static void createConnection() {
 //        String url = "jdbc:postgresql://157.230.48.97:5432/gmibank_db";
 //        String username="techprodb_user";

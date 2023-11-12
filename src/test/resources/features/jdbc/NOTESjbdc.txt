@@ -70,8 +70,15 @@ public class DatabaseStepDefinitions {
 
     }
 }
-
-
+*****myNotes*****
+ 1-Database Utilities class ını "DBUtils" ekle utilities package ine
+ 2-driver(dependency) ekle postgre sql database icin(mvnrepository'den)
+ 3-JBDC icin "features package"'nin altına "jdbc" package'ini ekledik ve "jdbc_read_data.feature" featurunu olusturduk
+ 4-runner package'e  "DBRunners" ekledik(path degisiyor)
+ 5-stepdefinitions package'nin altına "db_stepdefinitions" package i olusturup altına
+  "DatabaseStepDefinitions" classını olusturmadık ama öyle yapsak daha güzel olurdu
+ 6-intellij e "DB Navigator" pluginini ekle.Eger ekli olursa direck burdan database e
+   connection yapılabiliyor.
 
 ************************* HOW TO USE JDBC ************************
           1. Connect Database
