@@ -51,6 +51,7 @@ public class DatabaseStepDefinitions {
 
     }
 
+//#    TEST ACCOUNT TABLE ACCOUNT_TYPE COLUMN CONTAINS 4 ACCOUNT TYPE: CREDIT CARD, SAVING, CHECKING, INVESTING
     @Then("verify table {string} and column {string} contains data {string}")
     public void verify_table_and_column_contains_data(String table, String column, String data) {
 //      getting to the table

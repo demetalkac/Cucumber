@@ -769,3 +769,37 @@ NOT: ExcelStepDefinitions2 VE day27_excel_automation.feature BEN EXTRADAN OLUSTU
   ** PARALEL TEST NOTLARI RUNNER PACKATE I İCINDE
   *** SPARK REPORTS NOTLARI RUNNER PACKATE I İCINDE
   *****SELENIUM GRID NOTES*** resources=> features => seleniumgrid icinde.
+  ***JDBC NOTES*** resources=> features => jdbc => NOTESjbdc icinde.
+
+  ***********
+                REGEX
+  Regex kullanımı için suerch yapabilirsin: Cucumber step definition Regular expression
+
+  day28_regularexpressions.feature
+  @reg_ex
+  Feature: url_feature
+
+    Scenario: TC01_open_URLs
+      When I open "https://bluerentalcars.com" page
+      When i open "https://amazon.com" page
+
+  RegExStepDefinitions
+  package stepdefinitions;
+  import io.cucumber.java.en.When;
+  import utilities.Driver;
+
+  public class RegExStepDefinitions {
+
+  //    @When("I open {string} page")
+  //    public void i_open_page(String string) {
+  //        Driver.getDriver().get(string);
+  //    }
+
+  //    {string} --->>> "([^"]*)"
+
+      /**    With regex, we can now make the feature file
+       a little more flexible
+       in this example,our data is parametrized
+       ALSO THE STEP CAN START WITH I OR i
+       */
+

@@ -9,7 +9,7 @@ Feature: db_customer_testing
 #    read all of the login names of the customer
     Then user reads all the column "login" data
 
-#    PRINT THE USERS FIRST NAMES
+#    PRINT THE USERS FIRST NAMES(yukardaki kod ile aynı adımları kullanıyor, login sutunu yerine firstname sutunun aldık)
   Scenario: TC02_read_customer_firstname_info
 #    Select * from jhi_user
     And user gets the column "*" from table "jhi_user"
